@@ -1,38 +1,47 @@
-<!DOCTYPE html><html><head><title>Take Home Pay</title><meta name="viewport" content="width=device-width,initial-scale=1"><style>
-body{font-family:Arial;background:#120c08;margin:0;padding:16px;color:white}.app{max-width:520px;margin:auto;background:#1f1f1f;padding:22px;border-radius:24px}h1{margin:0;color:#f4dcd2}p{color:#d3bfb5}label{display:block;margin-top:13px;font-weight:bold}input,select{width:100%;box-sizing:border-box;padding:13px;margin-top:6px;border-radius:13px;border:1px solid #666;background:#2b2b2b;color:white;font-size:17px}button{width:100%;padding:16px;margin-top:18px;border:0;border-radius:14px;background:#06751f;color:white;font-size:20px;font-weight:bold}.card{background:#2b2b2b;margin-top:18px;padding:16px;border-radius:18px}.row{display:flex;justify-content:space-between;gap:15px;padding:8px 0;border-bottom:1px solid #444}.total{font-size:24px;font-weight:bold;color:#35d455}small{display:block;margin-top:14px;color:#c9aaa0}.section{margin-top:26px;border-top:1px solid #555;padding-top:18px}h2{color:#f4dcd2;margin-bottom:0}</style></head><body><div class="app">
-<h1>✈️ Paycheck Estimator</h1><p>Monthly United FA pay estimate</p>
+<!DOCTYPE html><html><head><title>Monthly Take Home Pay</title><meta name="viewport" content="width=device-width,initial-scale=1"><style>
+body{font-family:Arial;background:#080808;margin:0;padding:16px;color:white}.app{max-width:520px;margin:auto;background:#181818;padding:22px;border-radius:24px}h1{color:#f4dcd2;margin:0}p{color:#bca79f}label{display:block;margin-top:14px;font-weight:bold}input,select{width:100%;box-sizing:border-box;padding:14px;margin-top:6px;border-radius:14px;border:1px solid #555;background:#222;color:white;font-size:18px}button{width:100%;padding:16px;margin-top:20px;border:0;border-radius:15px;background:#08751f;color:white;font-size:21px;font-weight:bold}.card{background:#101010;margin-top:22px;padding:16px;border-radius:18px}.row{display:flex;justify-content:space-between;gap:16px;border-bottom:1px solid #444;padding:9px 0}.total{font-size:26px;font-weight:bold;color:#35d455}.section{border-top:1px solid #444;margin-top:25px;padding-top:18px}small{display:block;color:#aaa;margin-top:14px}</style></head><body><div class="app">
+
+<h1>✈️ Monthly Pay Estimator</h1>
+<p>United FA monthly take-home estimate</p>
 
 <label>Hourly Rate</label><input id="rate" value="61" type="number">
-<label>Total Flight Hours</label><input id="hours" type="number" placeholder="Example: 80">
+<label>Total Monthly Flight Hours</label><input id="hours" type="number">
 
 <label>35-Min Aircraft Legs</label><input id="legs35" type="number" placeholder="A319 / A320 / 737-700">
 <label>40-Min Aircraft Legs</label><input id="legs40" type="number" placeholder="737-800 / 900 / MAX 8 / MAX 9">
 <label>50-Min Aircraft Legs</label><input id="legs50" type="number" placeholder="A321neo / 757 / 767 / 777 / 787">
 
 <label>Trip Type</label><select id="triptype"><option value="2.97">Domestic - $2.97/hr</option><option value="3.54">International - $3.54/hr</option></select>
-<label>Total TAFB Hours</label><input id="tafb" type="number" placeholder="Example: 160">
+<label>Total Monthly TAFB Hours</label><input id="tafb" type="number">
 
-<button onclick="calc()">Calculate</button>
+<div class="section">
+<h2>Monthly Deductions</h2>
+
+<label>Number of Paychecks This Month</label><input id="checks" value="2" type="number">
+
+<label>401(k) %</label><input id="k401" value="8" type="number">
+<label>Federal Tax %</label><input id="fed" value="12" type="number">
+<label>State Tax %</label><input id="state" value="0" type="number">
+
+<label>Medical Per Check</label><input id="medical" value="100.43" type="number">
+<label>AFA Dues Per Month</label><input id="afa" value="50" type="number">
+<label>401(k) Loan Per Check</label><input id="loan" value="130.28" type="number">
+<label>Other Deductions Per Check</label><input id="other" value="0" type="number">
+</div>
+
+<button onclick="calc()">Calculate Monthly Take Home</button>
 
 <div class="card">
 <div class="row"><span>Flight Pay</span><b id="flightpay">$0.00</b></div>
 <div class="row"><span>Boarding Minutes</span><b id="boardingmin">0</b></div>
 <div class="row"><span>Boarding Pay</span><b id="boardingpay">$0.00</b></div>
 <div class="row"><span>Per Diem</span><b id="perdiem">$0.00</b></div>
-<div class="row"><span>Taxable Gross</span><b id="gross">$0.00</b></div>
+<div class="row"><span>Monthly Taxable Gross</span><b id="gross">$0.00</b></div>
 <div class="row"><span>401(k)</span><b id="k401out">$0.00</b></div>
-<div class="row"><span>Taxes</span><b id="taxes">$0.00</b></div>
-<div class="row"><span>Other Deductions</span><b id="deductions">$0.00</b></div>
-<div class="row total"><span>Take Home</span><span id="takehome">$0.00</span></div>
+<div class="row"><span>Estimated Taxes</span><b id="taxes">$0.00</b></div>
+<div class="row"><span>Monthly Deductions</span><b id="deductions">$0.00</b></div>
+<div class="row total"><span>Monthly Take Home</span><span id="takehome">$0.00</span></div>
 </div>
-
-<label>401(k) %</label><input id="k401" value="8" type="number">
-<label>Federal Tax %</label><input id="fed" value="12" type="number">
-<label>State Tax %</label><input id="state" value="0" type="number">
-<label>Medical Per Check</label><input id="medical" value="100.43" type="number">
-<label>AFA Dues Per Check</label><input id="afa" value="25" type="number">
-<label>401(k) Loan Per Check</label><input id="loan" value="130.28" type="number">
-<label>Other Deductions</label><input id="other" value="0" type="number">
 
 <div class="section">
 <h2>💰 Retro Pay Calculator</h2>
@@ -40,6 +49,7 @@ body{font-family:Arial;background:#120c08;margin:0;padding:16px;color:white}.app
 <label>Retro Federal Tax %</label><input id="retroFed" value="22" type="number">
 <label>Apply 401(k) to Retro?</label><select id="retro401"><option value="yes">Yes</option><option value="no">No</option></select>
 <button onclick="calcRetro()">Calculate Retro</button>
+
 <div class="card">
 <div class="row"><span>Retro 401(k)</span><b id="retro401out">$0.00</b></div>
 <div class="row"><span>Retro Taxes</span><b id="retroTaxes">$0.00</b></div>
@@ -47,7 +57,7 @@ body{font-family:Arial;background:#120c08;margin:0;padding:16px;color:white}.app
 </div>
 </div>
 
-<small>Boarding pay = total boarding minutes × half hourly rate. Per diem = TAFB hours × selected rate.</small>
+<small>This is an estimate. Payroll withholding can vary.</small>
 </div>
 
 <script>
@@ -55,20 +65,24 @@ function n(id){return parseFloat(document.getElementById(id).value)||0}
 function money(x){return "$"+x.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}
 
 function calc(){
-let rate=n("rate"),hours=n("hours"),tafb=n("tafb");
+let rate=n("rate"),hours=n("hours"),tafb=n("tafb"),checks=n("checks");
 let boardMins=(n("legs35")*35)+(n("legs40")*40)+(n("legs50")*50);
 let flightPay=rate*hours;
 let boardingPay=(rate/2/60)*boardMins;
 let perDiem=n("triptype")*tafb;
 let grossPay=flightPay+boardingPay;
+
 let k401Amt=grossPay*n("k401")/100;
 let taxablePay=grossPay-k401Amt;
+
 let fedTax=taxablePay*n("fed")/100;
 let stateTax=taxablePay*n("state")/100;
 let ficaTax=grossPay*.0765;
 let totalTaxes=fedTax+stateTax+ficaTax;
-let otherDed=n("medical")+n("afa")+n("loan")+n("other");
-let netPay=grossPay+perDiem-k401Amt-totalTaxes-otherDed;
+
+let monthlyDeductions=(n("medical")*checks)+n("afa")+(n("loan")*checks)+(n("other")*checks);
+
+let netPay=grossPay+perDiem-k401Amt-totalTaxes-monthlyDeductions;
 
 document.getElementById("flightpay").innerText=money(flightPay);
 document.getElementById("boardingmin").innerText=boardMins;
@@ -77,7 +91,7 @@ document.getElementById("perdiem").innerText=money(perDiem);
 document.getElementById("gross").innerText=money(grossPay);
 document.getElementById("k401out").innerText=money(k401Amt);
 document.getElementById("taxes").innerText=money(totalTaxes);
-document.getElementById("deductions").innerText=money(otherDed);
+document.getElementById("deductions").innerText=money(monthlyDeductions);
 document.getElementById("takehome").innerText=money(netPay);
 }
 
