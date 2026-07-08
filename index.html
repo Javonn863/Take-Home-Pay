@@ -1,6 +1,5 @@
 <!DOCTYPE html><html><head><title>Take Home Pay</title><meta name="viewport" content="width=device-width,initial-scale=1"><style>
-body{font-family:Arial;background:#120c08;margin:0;padding:16px;color:white}.app{max-width:520px;margin:auto;background:#1f1f1f;padding:22px;border-radius:24px}h1{margin:0;color:#f4dcd2}p{color:#d3bfb5}label{display:block;margin-top:13px;font-weight:bold}input,select{width:100%;box-sizing:border-box;padding:13px;margin-top:6px;border-radius:13px;border:1px solid #666;background:#2b2b2b;color:white;font-size:17px}button{width:100%;padding:16px;margin-top:18px;border:0;border-radius:14px;background:#2f8f46;color:white;font-size:20px;font-weight:bold}.card{background:#2b2b2b;margin-top:18px;padding:16px;border-radius:18px}.row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #444}.total{font-size:24px;font-weight:bold;color:#7cff9b}small{display:block;margin-top:14px;color:#c9aaa0}
-</style></head><body><div class="app">
+body{font-family:Arial;background:#120c08;margin:0;padding:16px;color:white}.app{max-width:520px;margin:auto;background:#1f1f1f;padding:22px;border-radius:24px}h1{margin:0;color:#f4dcd2}p{color:#d3bfb5}label{display:block;margin-top:13px;font-weight:bold}input,select{width:100%;box-sizing:border-box;padding:13px;margin-top:6px;border-radius:13px;border:1px solid #666;background:#2b2b2b;color:white;font-size:17px}button{width:100%;padding:16px;margin-top:18px;border:0;border-radius:14px;background:#06751f;color:white;font-size:20px;font-weight:bold}.card{background:#2b2b2b;margin-top:18px;padding:16px;border-radius:18px}.row{display:flex;justify-content:space-between;gap:15px;padding:8px 0;border-bottom:1px solid #444}.total{font-size:24px;font-weight:bold;color:#35d455}small{display:block;margin-top:14px;color:#c9aaa0}.section{margin-top:26px;border-top:1px solid #555;padding-top:18px}h2{color:#f4dcd2;margin-bottom:0}</style></head><body><div class="app">
 <h1>✈️ Paycheck Estimator</h1><p>Monthly United FA pay estimate</p>
 
 <label>Hourly Rate</label><input id="rate" value="61" type="number">
@@ -17,53 +16,4 @@ body{font-family:Arial;background:#120c08;margin:0;padding:16px;color:white}.app
 
 <div class="card">
 <div class="row"><span>Flight Pay</span><b id="flightpay">$0.00</b></div>
-<div class="row"><span>Boarding Minutes</span><b id="boardingmin">0</b></div>
-<div class="row"><span>Boarding Pay</span><b id="boardingpay">$0.00</b></div>
-<div class="row"><span>Per Diem</span><b id="perdiem">$0.00</b></div>
-<div class="row"><span>Taxable Gross</span><b id="gross">$0.00</b></div>
-<div class="row"><span>401(k)</span><b id="k401out">$0.00</b></div>
-<div class="row"><span>Taxes</span><b id="taxes">$0.00</b></div>
-<div class="row"><span>Other Deductions</span><b id="deductions">$0.00</b></div>
-<div class="row total"><span>Take Home</span><span id="takehome">$0.00</span></div>
-</div>
-
-<label>401(k) %</label><input id="k401" value="8" type="number">
-<label>Federal Tax %</label><input id="fed" value="12" type="number">
-<label>State Tax %</label><input id="state" value="0" type="number">
-<label>Medical Per Check</label><input id="medical" value="100.43" type="number">
-<label>AFA Dues Per Check</label><input id="afa" value="25" type="number">
-<label>401(k) Loan Per Check</label><input id="loan" value="130.28" type="number">
-<label>Other Deductions</label><input id="other" value="0" type="number">
-
-<small>Boarding pay = total boarding minutes × half hourly rate. Per diem = TAFB hours × selected rate.</small>
-</div>
-
-<script>
-function n(id){return parseFloat(document.getElementById(id).value)||0}
-function money(x){return "$"+x.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}
-function calc(){
-let rate=n("rate"),hours=n("hours"),tafb=n("tafb");
-let boardMins=(n("legs35")*35)+(n("legs40")*40)+(n("legs50")*50);
-let flightPay=rate*hours;
-let boardingPay=(rate/2/60)*boardMins;
-let perDiem=n("triptype")*tafb;
-let gross=flightPay+boardingPay;
-let k401=gross*n("k401")/100;
-let taxable=gross-k401;
-let fed=taxable*n("fed")/100;
-let state=taxable*n("state")/100;
-let fica=gross*.0765;
-let taxes=fed+state+fica;
-let otherDed=n("medical")+n("afa")+n("loan")+n("other");
-let takehome=gross+perDiem-k401-taxes-otherDed;
-flightpay.innerText=money(flightPay);
-boardingmin.innerText=boardMins;
-boardingpay.innerText=money(boardingPay);
-perdiem.innerText=money(perDiem);
-gross.innerText=money(gross);
-k401out.innerText=money(k401);
-taxes.innerText=money(taxes);
-deductions.innerText=money(otherDed);
-takehome.innerText=money(takehome);
-}
-</script></body></html>
+<div class
