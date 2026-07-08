@@ -16,4 +16,82 @@ body{font-family:Arial;background:#120c08;margin:0;padding:16px;color:white}.app
 
 <div class="card">
 <div class="row"><span>Flight Pay</span><b id="flightpay">$0.00</b></div>
-<div class
+<div class="row"><span>Boarding Minutes</span><b id="boardingmin">0</b></div>
+<div class="row"><span>Boarding Pay</span><b id="boardingpay">$0.00</b></div>
+<div class="row"><span>Per Diem</span><b id="perdiem">$0.00</b></div>
+<div class="row"><span>Taxable Gross</span><b id="gross">$0.00</b></div>
+<div class="row"><span>401(k)</span><b id="k401out">$0.00</b></div>
+<div class="row"><span>Taxes</span><b id="taxes">$0.00</b></div>
+<div class="row"><span>Other Deductions</span><b id="deductions">$0.00</b></div>
+<div class="row total"><span>Take Home</span><span id="takehome">$0.00</span></div>
+</div>
+
+<label>401(k) %</label><input id="k401" value="8" type="number">
+<label>Federal Tax %</label><input id="fed" value="12" type="number">
+<label>State Tax %</label><input id="state" value="0" type="number">
+<label>Medical Per Check</label><input id="medical" value="100.43" type="number">
+<label>AFA Dues Per Check</label><input id="afa" value="25" type="number">
+<label>401(k) Loan Per Check</label><input id="loan" value="130.28" type="number">
+<label>Other Deductions</label><input id="other" value="0" type="number">
+
+<div class="section">
+<h2>💰 Retro Pay Calculator</h2>
+<label>Retro Gross Amount</label><input id="retroGross" type="number" placeholder="Example: 26000">
+<label>Retro Federal Tax %</label><input id="retroFed" value="22" type="number">
+<label>Apply 401(k) to Retro?</label><select id="retro401"><option value="yes">Yes</option><option value="no">No</option></select>
+<button onclick="calcRetro()">Calculate Retro</button>
+<div class="card">
+<div class="row"><span>Retro 401(k)</span><b id="retro401out">$0.00</b></div>
+<div class="row"><span>Retro Taxes</span><b id="retroTaxes">$0.00</b></div>
+<div class="row total"><span>Retro Take Home</span><span id="retroTakehome">$0.00</span></div>
+</div>
+</div>
+
+<small>Boarding pay = total boarding minutes × half hourly rate. Per diem = TAFB hours × selected rate.</small>
+</div>
+
+<script>
+function n(id){return parseFloat(document.getElementById(id).value)||0}
+function money(x){return "$"+x.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}
+
+function calc(){
+let rate=n("rate"),hours=n("hours"),tafb=n("tafb");
+let boardMins=(n("legs35")*35)+(n("legs40")*40)+(n("legs50")*50);
+let flightPay=rate*hours;
+let boardingPay=(rate/2/60)*boardMins;
+let perDiem=n("triptype")*tafb;
+let grossPay=flightPay+boardingPay;
+let k401Amt=grossPay*n("k401")/100;
+let taxablePay=grossPay-k401Amt;
+let fedTax=taxablePay*n("fed")/100;
+let stateTax=taxablePay*n("state")/100;
+let ficaTax=grossPay*.0765;
+let totalTaxes=fedTax+stateTax+ficaTax;
+let otherDed=n("medical")+n("afa")+n("loan")+n("other");
+let netPay=grossPay+perDiem-k401Amt-totalTaxes-otherDed;
+
+document.getElementById("flightpay").innerText=money(flightPay);
+document.getElementById("boardingmin").innerText=boardMins;
+document.getElementById("boardingpay").innerText=money(boardingPay);
+document.getElementById("perdiem").innerText=money(perDiem);
+document.getElementById("gross").innerText=money(grossPay);
+document.getElementById("k401out").innerText=money(k401Amt);
+document.getElementById("taxes").innerText=money(totalTaxes);
+document.getElementById("deductions").innerText=money(otherDed);
+document.getElementById("takehome").innerText=money(netPay);
+}
+
+function calcRetro(){
+let retro=n("retroGross");
+let use401=document.getElementById("retro401").value==="yes";
+let r401=use401 ? retro*n("k401")/100 : 0;
+let taxableRetro=retro-r401;
+let fed=taxableRetro*n("retroFed")/100;
+let fica=retro*.0765;
+let total=fed+fica;
+let net=retro-r401-total;
+document.getElementById("retro401out").innerText=money(r401);
+document.getElementById("retroTaxes").innerText=money(total);
+document.getElementById("retroTakehome").innerText=money(net);
+}
+</script></body></html>
