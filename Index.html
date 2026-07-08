@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Take Home Pay</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body{font-family:Arial;background:#f4eee8;margin:0;padding:20px;color:#2b211c}
+.app{max-width:500px;margin:auto;background:white;padding:22px;border-radius:22px;box-shadow:0 8px 25px #0002}
+h1{margin:0;color:#4b2e22}
+p{color:#7a6254}
+label{display:block;margin-top:14px;font-weight:bold}
+input{width:100%;padding:13px;margin-top:6px;border:1px solid #ccc;border-radius:12px;font-size:16px}
+button{width:100%;padding:15px;margin-top:22px;border:0;border-radius:14px;background:#6b3f2a;color:white;font-size:18px;font-weight:bold}
+.card{background:#efe2d8;margin-top:20px;padding:18px;border-radius:18px}
+.row{display:flex;justify-content:space-between;border-bottom:1px solid #0001;padding:9px 0}
+.total{font-size:24px;font-weight:bold;color:green}
+small{display:block;margin-top:15px;color:#8a7568}
+</style>
+</head>
+<body>
+<div class="app">
+<h1>✈️ Paycheck Estimator</h1>
+<p>Estimate your take-home pay after taxes and deductions.</p>
+
+<label>Hourly Rate</label>
+<input id="rate" value="61" type="number">
+
+<label>Paid Hours</label>
+<input id="hours" type="number" placeholder="Example: 80">
+
+<label>Boarding Pay</label>
+<input id="boarding" type="number" placeholder="Example: 213">
+
+<label>Per Diem / Non-taxable Pay</label>
+<input id="perdiem" type="number" placeholder="Example: 346">
+
+<label>401(k) %</label>
+<input id="k401" value="8" type="number
